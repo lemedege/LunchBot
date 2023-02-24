@@ -29,6 +29,6 @@ jobs:
         ZULIP_API_KEY: ${{ secrets.ZULIP_API_KEY }} 
         ZULIP_EMAIL: ${{ secrets.ZULIP_EMAIL }} 
         ZULIP_SITE: ${{ secrets.ZULIP_SITE }} 
-        STREAM: ${{ var.STREAM }} 
+        STREAM: ${{ secrets.STREAM }} 
       run: python run.py
       shell: sh
