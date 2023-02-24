@@ -33,7 +33,6 @@ urldict["halal"] = dom.xpath('/html/body/main/div/div/div[7]/div/div[2]/div/div/
 # ["location.href='/Files/Files/Branding RAPIDO/Favorit buffet menuer/Favorit buffet uge 9 2023.pdf'"]
 # split by qoutation-mark
 
-#print(urldict)
     
 menudict = {} 
    
@@ -48,16 +47,14 @@ for category,url in urldict.items():
     for count, page in enumerate(reader.pages):
         text = reader.pages[count].extract_text()
         text = re.sub(r'\(.*\)', '', text) # remove allergene markings
-        #text = re.sub(r'.*\DAG', '', text) # remove allergene markings
         text = re.sub(r'.*([a-åA-å]{3,4}[DAG])\w+', '', text) # remove allergene markings
         text = text.split('Tallene')[0] #remove allergene text at the end of string
         menudict[category].append(text)
-    #text = reader.pages[0].extract_text()
-    #print(text)
     
+  
 
 today = datetime.datetime.now()
-todaystext = today.strftime("%A")
+todaystext = today.strftime("%A").upper()
 todaystext += ("\n\n")
 
 
@@ -68,24 +65,16 @@ for key in menudict:
     text += '\n'
     todaystext += (text)
 
-#print(todaystext)
 
-user_id = 390558    
+stream_name = os.environ.get("STREAM")
+
+
 request = {
-    "type": "private",
-    "to": [user_id],
+    "type": "stream",
+    "to": stream_name,
+    "topic": today.strftime("%A"),
     "content": todaystext,
 }
+
 result = client.send_message(request)
 
-
-
-#r = requests.get(menuPath, allow_redirects=True)
-#open('menu.pdf', 'wb').write(r.content)
-
-#reader = PdfReader('menu.pdf')
-
-#print(len(reader.pages))
-
-#text = reader.pages[0].extract_text()
-#print(text)
