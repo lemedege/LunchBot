@@ -8,7 +8,7 @@ import re
 import datetime
 import os
 
-client = zulip.Client()
+client = zulip.Client(config_file="zuliprc")
  
 BASE_URL =  "https://torvekoekken.dk"
 FAVORIT_URL = "https://torvekoekken.dk/sjaelland/frokostordning/favorit-buffet"
@@ -69,6 +69,8 @@ for key in menudict:
 
 stream_name = os.environ.get("STREAM")
 
+print("sending menu of the day to:")
+print(stream_name)
 
 request = {
     "type": "stream",
