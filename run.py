@@ -55,7 +55,7 @@ for category,url in urldict.items():
   
 
 today = datetime.datetime.now()
-todaystext = today.strftime("%A").upper() + " WEEK" + today.strftime("%W")
+todaystext = today.strftime("%A").upper() + " WEEK " + today.strftime("%W")
 todaystext += ("\n\n")
 
 
