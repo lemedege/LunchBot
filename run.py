@@ -7,7 +7,7 @@ import zulip
 import re
 import datetime
 
-client = zulip.Client(config_file="zuliprc")
+client = zulip.Client()
  
 BASE_URL =  "https://torvekoekken.dk"
 FAVORIT_URL = "https://torvekoekken.dk/sjaelland/frokostordning/favorit-buffet"
