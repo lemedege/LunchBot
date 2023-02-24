@@ -55,7 +55,7 @@ for category,url in urldict.items():
   
 
 today = datetime.datetime.now()
-todaystext = today.strftime("%A").upper()
+todaystext = today.strftime("%A").upper() + " WEEK" + today.strftime("%W")
 todaystext += ("\n\n")
 
 
@@ -75,7 +75,7 @@ print(stream_name)
 request = {
     "type": "stream",
     "to": stream_name,
-    "topic": today.strftime("%A"),
+    "topic": "Week "+ today.strftime("%W"),
     "content": todaystext,
 }
 
