@@ -3,6 +3,7 @@ name: Send Menu
 on:
   schedule:
     - cron: "0 8 * * 1-5"
+  workflow_dispatch:
 
 permissions:
   contents: read
