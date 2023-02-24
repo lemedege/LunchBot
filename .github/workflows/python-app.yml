@@ -1,7 +1,4 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: Python application
+name: Send Menu
 
 on:
   push:
@@ -28,5 +25,10 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run
+      env:
+        ZULIP_API_KEY: ${{ secrets.ZULIP_API_KEY }} 
+        ZULIP_EMAIL: ${{ secrets.ZULIP_EMAIL }} 
+        ZULIP_SITE: ${{ secrets.ZULIP_SITE }} 
+        STREAM: ${{ env.STREAM }} 
       run: python run.py
       shell: sh
