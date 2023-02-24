@@ -24,11 +24,11 @@ webpage = requests.get(PORTIONS_URL, headers=HEADERS)
 soup = BeautifulSoup(webpage.content, "html.parser")
 dom = etree.HTML(str(soup))
 urldict = {} 
-urldict["favorit"] = dom.xpath('/html/body/main/div/div/div[3]/div/div[2]/div/div/div/div[2]/button[2]/@onclick')
-urldict["vegetar"] = dom.xpath('/html/body/main/div/div/div[4]/div/div[1]/div/div/div/div[2]/button[2]/@onclick')
-urldict["gluten"] = dom.xpath('/html/body/main/div/div/div[5]/div/div[2]/div/div/div/div[2]/button[2]/@onclick')
-urldict["vegansk"] = dom.xpath('/html/body/main/div/div/div[6]/div/div[1]/div/div/div/div[2]/button[2]/@onclick')
-urldict["halal"] = dom.xpath('/html/body/main/div/div/div[7]/div/div[2]/div/div/div/div[2]/button[2]/@onclick')
+urldict["favorit"] = dom.xpath('/html/body/main/div/div/div[3]/div/div[2]/div/div/div/div[2]/button[1]/@onclick')
+urldict["vegetar"] = dom.xpath('/html/body/main/div/div/div[4]/div/div[1]/div/div/div/div[2]/button[1]/@onclick')
+urldict["gluten"] = dom.xpath('/html/body/main/div/div/div[5]/div/div[2]/div/div/div/div[2]/button[1]/@onclick')
+urldict["vegansk"] = dom.xpath('/html/body/main/div/div/div[6]/div/div[1]/div/div/div/div[2]/button[1]/@onclick')
+urldict["halal"] = dom.xpath('/html/body/main/div/div/div[7]/div/div[2]/div/div/div/div[2]/button[1]/@onclick')
 
 
 # ["location.href='/Files/Files/Branding RAPIDO/Favorit buffet menuer/Favorit buffet uge 9 2023.pdf'"]
