@@ -1,10 +1,8 @@
 name: Send Menu
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  schedule:
+    - cron: "0 8 * * 1-5"
 
 permissions:
   contents: read
@@ -29,6 +27,6 @@ jobs:
         ZULIP_API_KEY: ${{ secrets.ZULIP_API_KEY }} 
         ZULIP_EMAIL: ${{ secrets.ZULIP_EMAIL }} 
         ZULIP_SITE: ${{ secrets.ZULIP_SITE }} 
-        STREAM: ${{ env.STREAM }} 
+        STREAM: ${{ var.STREAM }} 
       run: python run.py
       shell: sh
