@@ -79,5 +79,5 @@ request = {
     "content": todaystext,
 }
 
-#result = client.send_message(request)
+result = client.send_message(request)
 
