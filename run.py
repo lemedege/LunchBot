@@ -34,6 +34,11 @@ urldict["halal"] = dom.xpath('/html/body/main/div/div/div[7]/div/div[2]/div/div/
 # ["location.href='/Files/Files/Branding RAPIDO/Favorit buffet menuer/Favorit buffet uge 9 2023.pdf'"]
 # split by qoutation-mark
 
+emoji_dict = {"favorit": " :piglet: :calf: ", 
+              "vegetar": " :eggplant: :cheese: ", 
+              "vegansk":  " :herb: :apple: ",
+              "gluten": " :prohibited: :bread: ",
+              "halal": " :moon: :calf: "}
     
 menudict = {} 
    
@@ -55,13 +60,13 @@ for category,url in urldict.items():
   
 
 today = datetime.datetime.now()
-todaystext = today.strftime("%A").upper() + " WEEK " + today.strftime("%W")
-todaystext += ("\n\n")
+todaystext = "# " + today.strftime("%A").upper() + " WEEK " + today.strftime("%W")
+todaystext += ("\n---\n")
 
 
 for key in menudict:
-    text = str(key).upper()
-    text += '\n'
+    text = "##" + emoji_dict[key] + str(key).upper() + emoji_dict[key]
+    # text += '\n'
     text += str(menudict[key][today.weekday()])
     text += '\n'
     todaystext += (text)
