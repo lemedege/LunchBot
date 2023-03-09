@@ -99,13 +99,15 @@ if os.name == 'nt':
     "content": todaystext,
     }
     
+    
 else:
     request = {
         "type": "stream",
         "to": stream_name,
-        "topic": "Uge "+ (datetime.today() + datetime.timedelta(days=7)).strftime("%W"),
+        "topic": "Uge "+ (datetime.date.today() + datetime.timedelta(days=7)).strftime("%W"),
         "content": todaystext,
     }
     
-result = client.send_message(request)
+    
+#result = client.send_message(request)
 print(result)   
