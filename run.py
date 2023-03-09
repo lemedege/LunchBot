@@ -8,7 +8,10 @@ import re
 import datetime
 import os
 
-client = zulip.Client(config_file="zuliprc")
+if os.name == 'nt':
+    client = zulip.Client(config_file="zuliprc")
+else:
+    client = zulip.Client() #get creds from environment variable
  
 BASE_URL =  "https://torvekoekken.dk"
 FAVORIT_URL = "https://torvekoekken.dk/sjaelland/frokostordning/favorit-buffet"
@@ -77,12 +80,25 @@ stream_name = os.environ.get("STREAM")
 print("sending menu of the day to:")
 print(stream_name)
 
-request = {
-    "type": "stream",
-    "to": stream_name,
-    "topic": "Week "+ today.strftime("%W"),
+if os.name == 'nt':
+    print("sending private message")
+    user_id = 390558
+    request = {
+    "type": "private",
+    "to": [user_id],
     "content": todaystext,
-}
+    }
+    
+
+else:
+    request = {
+        "type": "stream",
+        "to": stream_name,
+        "topic": "Week "+ today.strftime("%W"),
+        "content": todaystext,
+    }
+
 
 result = client.send_message(request)
+print(result)
 
