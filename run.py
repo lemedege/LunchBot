@@ -44,19 +44,25 @@ else:
  
 BASE_URL =  "https://torvekoekken.dk"
 FAVORIT_URL = "https://torvekoekken.dk/sjaelland/frokostordning/favorit-buffet"
-VERDENS_URL = "https://torvekoekken.dk/sjaelland/frokostordning/favorit-buffet"
 PORTIONS_URL = "https://torvekoekken.dk/sjaelland/frokostordning/portionsanretninger"
   
 HEADERS = ({'User-Agent':
             'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 \
             (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36',\
             'Accept-Language': 'en-US, en;q=0.5'})
+
+
+urldict = {} 
+
+webpage = requests.get(FAVORIT_URL, headers=HEADERS)
+soup = BeautifulSoup(webpage.content, "html.parser")
+dom = etree.HTML(str(soup))
+urldict["favorit"] = dom.xpath('/html/body/main/div/div/div[1]/div/div[1]/div/div/div/div[2]/button[2]/@onclick')
+
   
 webpage = requests.get(PORTIONS_URL, headers=HEADERS)
 soup = BeautifulSoup(webpage.content, "html.parser")
 dom = etree.HTML(str(soup))
-urldict = {} 
-urldict["favorit"] = dom.xpath('/html/body/main/div/div/div[3]/div/div[2]/div/div/div/div[2]/button[2]/@onclick')
 urldict["vegetar"] = dom.xpath('/html/body/main/div/div/div[4]/div/div[1]/div/div/div/div[2]/button[2]/@onclick')
 urldict["vegansk"] = dom.xpath('/html/body/main/div/div/div[6]/div/div[1]/div/div/div/div[2]/button[2]/@onclick')
 urldict["glutenfri"] = dom.xpath('/html/body/main/div/div/div[5]/div/div[2]/div/div/div/div[2]/button[2]/@onclick')
@@ -102,4 +108,4 @@ else:
     }
     
 result = client.send_message(request)
-print(result)
+print(result)   
