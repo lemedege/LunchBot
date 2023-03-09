@@ -2,8 +2,8 @@ name: Send Menu
 
 on:
   workflow_dispatch:
-  #schedule:
-  #  - cron: "0 7 * * 1-5"
+  schedule:
+    - cron: "0 7 * * THU"
   
 
 permissions:
