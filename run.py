@@ -103,7 +103,7 @@ else:
     request = {
         "type": "stream",
         "to": stream_name,
-        "topic": "Uge "+ (datetime.today + datetime.timedelta(days=7)).strftime("%W"),
+        "topic": "Uge "+ (datetime.today() + datetime.timedelta(days=7)).strftime("%W"),
         "content": todaystext,
     }
     
