@@ -28,7 +28,7 @@ menudict = {}
 def render_message(menudict):
     day_template = """```spoiler {{ day }}\n\n{{content}}```\n"""
     render = ""
-    for day in range(1,6):
+    for day in range(1,len(menudict)-1):
         content_str = ""
         for key in menudict:
             content_str += "##" + emoji_dict[key] + str(key).upper() + emoji_dict[key]
