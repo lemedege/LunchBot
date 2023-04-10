@@ -17,6 +17,7 @@ emoji_dict = {"favorit": " :piglet: :calf: ",
 
 menudict = {} 
 dayslist = [] #add list empty list to hold the days in the coming week.
+currentweek = []
             
 def render_message(menudict):
     day_template = """```spoiler {{ day }}\n\n{{content}}```\n"""
@@ -75,6 +76,11 @@ for category,url in urldict.items():
     menudict[category] = []
     for count, page in enumerate(reader.pages):
         text = reader.pages[count].extract_text()
+        current_week = re.search(r'\w*UGE \w*',text)
+        if current_week is None:
+            continue
+        if str(current_week[0]) not in currentweek:
+            currentweek.append(current_week[0])   
         current_day = re.search(r'[a-åA-å]{3,4}\w*DAG\w*',text)
         if current_day is None:
             continue
@@ -84,6 +90,7 @@ for category,url in urldict.items():
         text = re.sub(r'.*[a-åA-å]{3,4}\w*DAG\w*', '', text) # remove days
         text = text.split('Tallene')[0] #remove allergene text at the end of string
         menudict[category].append(text)
+print(currentweek)
 todaystext = render_message(menudict)    
 
 stream_name = os.environ.get("STREAM")
@@ -104,7 +111,7 @@ else:
     request = {
         "type": "stream",
         "to": stream_name,
-        "topic": "Uge "+ (datetime.date.today() + datetime.timedelta(days=7)).strftime("%W"),
+        "topic": str(current_week),
         "content": todaystext,
     }
     
