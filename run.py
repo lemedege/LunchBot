@@ -8,14 +8,6 @@ import re
 import datetime
 import os
 import chevron
-
-weekdays = {1: "Mandag",
-            2: "Tirsdag",
-            3: "Onsdag",
-            4: "Torsdag",
-            5: "Fredag",
-            6: "Lørdag",
-            7: "Søndag"}
             
 emoji_dict = {"favorit": " :piglet: :calf: ", 
               "vegetar": " :eggplant: :cheese: ", 
@@ -24,16 +16,19 @@ emoji_dict = {"favorit": " :piglet: :calf: ",
               "halal": " :moon: :calf: "}
 
 menudict = {} 
+dayslist = [] #add list empty list to hold the days in the coming week.
             
 def render_message(menudict):
     day_template = """```spoiler {{ day }}\n\n{{content}}```\n"""
     render = ""
-    for day in range(1,len(menudict)-1):
+    for day in range(0,len(menudict)-1): # -1 because of empty page
         content_str = ""
         for key in menudict:
+            if key == 'days':
+                continue
             content_str += "##" + emoji_dict[key] + str(key).upper() + emoji_dict[key]
-            content_str += str(menudict[key][day-1])
-        render += chevron.render(day_template, {'day': weekdays[day], 'content': content_str})
+            content_str += str(menudict[key][day])
+        render += chevron.render(day_template, {'day': dayslist[day], 'content': content_str})
     return(render)
 
    
@@ -80,6 +75,11 @@ for category,url in urldict.items():
     menudict[category] = []
     for count, page in enumerate(reader.pages):
         text = reader.pages[count].extract_text()
+        current_day = re.search(r'[a-åA-å]{3,4}\w*DAG\w*',text)
+        if current_day is None:
+            continue
+        if str(current_day[0]) not in dayslist:
+            dayslist.append(current_day[0])    
         text = re.sub(r'\(.*\)', '', text) # remove allergene markings
         text = re.sub(r'.*[a-åA-å]{3,4}\w*DAG\w*', '', text) # remove days
         text = text.split('Tallene')[0] #remove allergene text at the end of string
