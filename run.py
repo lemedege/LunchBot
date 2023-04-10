@@ -111,7 +111,7 @@ else:
     request = {
         "type": "stream",
         "to": stream_name,
-        "topic": str(current_week),
+        "topic": current_week[0],
         "content": todaystext,
     }
     
