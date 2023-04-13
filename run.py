@@ -22,8 +22,10 @@ currentweek = []
 def render_message(menudict):
     day_template = """```spoiler {{ day }}\n\n{{content}}```\n"""
     render = ""
-    for day in range(0,len(menudict)-1): # -1 because of empty page
+    for day in range(0,len(menudict["favorit"])): # -1 because of empty page
         content_str = ""
+        print(len(menudict))
+        print(day)
         for key in menudict:
             if key == 'days':
                 continue
@@ -75,17 +77,19 @@ for category,url in urldict.items():
     reader = PdfReader(category+'.pdf')
     menudict[category] = []
     for count, page in enumerate(reader.pages):
-        text = reader.pages[count].extract_text()
+        print(category)
+        text = page.extract_text()
         current_week = re.search(r'\w*UGE \w*',text)
         if current_week is None:
             continue
         if str(current_week[0]) not in currentweek:
             currentweek.append(current_week[0])   
-        current_day = re.search(r'[a-åA-å]{3,4}\w*DAG\w*',text)
-        if current_day is None:
+        current_day = re.search(r'[a-åA-å]{3,4}\w*\s*D\s*A\s*G\w*',text)
+        current_day = str(current_day[0]).replace(" ", "") # strip spaces
+        if current_day is None: 
             continue
-        if str(current_day[0]) not in dayslist:
-            dayslist.append(current_day[0])    
+        if str(current_day) not in dayslist:
+            dayslist.append(current_day)    
         text = re.sub(r'\(.*\)', '', text) # remove allergene markings
         text = re.sub(r'.*[a-åA-å]{3,4}\w*DAG\w*', '', text) # remove days
         text = text.split('Tallene')[0] #remove allergene text at the end of string
