@@ -41,7 +41,7 @@ else:
     client = zulip.Client() #get creds from environment variable
  
 BASE_URL =  "https://torvekoekken.dk"
-FAVORIT_URL = "https://torvekoekken.dk/sjaelland/frokostordning/favorit-buffet"
+FAVORIT_URL = "https://torvekoekken.dk/sjaelland/frokostordning/nygastro-buffet"
 PORTIONS_URL = "https://torvekoekken.dk/sjaelland/frokostordning/portionsanretninger"
   
 HEADERS = ({'User-Agent':
