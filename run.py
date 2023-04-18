@@ -10,6 +10,7 @@ import os
 import chevron
             
 emoji_dict = {"favorit": " :piglet: :calf: ", 
+              "nygastro": ":star: :steak:",
               "vegetar": " :eggplant: :cheese: ", 
               "vegansk":  " :herb: :apple: ",
               "glutenfri": " :prohibited: :bread: ",
@@ -41,7 +42,8 @@ else:
     client = zulip.Client() #get creds from environment variable
  
 BASE_URL =  "https://torvekoekken.dk"
-FAVORIT_URL = "https://torvekoekken.dk/sjaelland/frokostordning/nygastro-buffet"
+FAVORIT_URL = "https://torvekoekken.dk/sjaelland/frokostordning/favorit-buffet"
+NY_GASTRO_URL = "https://torvekoekken.dk/sjaelland/frokostordning/nygastro-buffet"
 PORTIONS_URL = "https://torvekoekken.dk/sjaelland/frokostordning/portionsanretninger"
   
 HEADERS = ({'User-Agent':
@@ -57,6 +59,10 @@ soup = BeautifulSoup(webpage.content, "html.parser")
 dom = etree.HTML(str(soup))
 urldict["favorit"] = dom.xpath('/html/body/main/div/div/div[1]/div/div[1]/div/div/div/div[2]/button[2]/@onclick')
 
+webpage = requests.get(NY_GASTRO_URL, headers=HEADERS)
+soup = BeautifulSoup(webpage.content, "html.parser")
+dom = etree.HTML(str(soup))
+urldict["nygastro"] = dom.xpath('/html/body/main/div/div/div[1]/div/div[1]/div/div/div/div[2]/button[2]/@onclick')
   
 webpage = requests.get(PORTIONS_URL, headers=HEADERS)
 soup = BeautifulSoup(webpage.content, "html.parser")
