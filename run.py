@@ -10,7 +10,7 @@ import os
 import chevron
             
 emoji_dict = {"favorit": " :piglet: :calf: ", 
-              "nygastro": ":star: :steak:",
+              "nygastro": " :star: :steak:",
               "vegetar": " :eggplant: :cheese: ", 
               "vegansk":  " :herb: :apple: ",
               "glutenfri": " :prohibited: :bread: ",
@@ -30,7 +30,7 @@ def render_message(menudict):
         for key in menudict:
             if key == 'days':
                 continue
-            content_str += "##" + emoji_dict[key] + str(key).upper() + emoji_dict[key]
+            content_str += "\n##" + emoji_dict[key] + str(key).upper() + emoji_dict[key]
             content_str += str(menudict[key][day])
         render += chevron.render(day_template, {'day': dayslist[day], 'content': content_str})
     return(render)
@@ -68,22 +68,22 @@ webpage = requests.get(PORTIONS_URL, headers=HEADERS)
 soup = BeautifulSoup(webpage.content, "html.parser")
 dom = etree.HTML(str(soup))
 urldict["vegetar"] = dom.xpath('/html/body/main/div/div/div[4]/div/div[1]/div/div/div/div[2]/button[2]/@onclick')
-urldict["vegansk"] = dom.xpath('/html/body/main/div/div/div[6]/div/div[1]/div/div/div/div[2]/button[2]/@onclick')
-urldict["glutenfri"] = dom.xpath('/html/body/main/div/div/div[5]/div/div[2]/div/div/div/div[2]/button[2]/@onclick')
+urldict["vegansk"] = dom.xpath('/html/body/main/div/div/div[5]/div/div[1]/div/div/div/div[2]/button[2]/@onclick')
+urldict["glutenfri"] = dom.xpath('/html/body/main/div/div/div[6]/div/div[2]/div/div/div/div[2]/button[2]/@onclick')
 urldict["halal"] = dom.xpath('/html/body/main/div/div/div[7]/div/div[2]/div/div/div/div[2]/button[2]/@onclick')
 
 # ["location.href='/Files/Files/Branding RAPIDO/Favorit buffet menuer/Favorit buffet uge 9 2023.pdf'"]
 # split by qoutation-mark
  
 for category,url in urldict.items():
+    if(url is None):
+        pass
     url = BASE_URL + str(url).split('\'')[1]
-    #print(url)
     r = requests.get(url, allow_redirects=True)
     open(category+'.pdf', 'wb').write(r.content)
     reader = PdfReader(category+'.pdf')
     menudict[category] = []
     for count, page in enumerate(reader.pages):
-        print(category)
         text = page.extract_text()
         current_week = re.search(r'\w*UGE \w*',text)
         if current_week is None:
