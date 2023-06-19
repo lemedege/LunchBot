@@ -11,6 +11,7 @@ import chevron
             
 emoji_dict = {"favorit": " :piglet: :calf: ", 
               "nygastro": " :star: :steak:",
+              "verdens": " :chili_pepper: :small_airplane:",
               "vegetar": " :eggplant: :cheese: ", 
               "vegansk":  " :herb: :apple: ",
               "glutenfri": " :prohibited: :bread: ",
@@ -44,6 +45,7 @@ else:
 BASE_URL =  "https://torvekoekken.dk"
 FAVORIT_URL = "https://torvekoekken.dk/sjaelland/frokostordning/favorit-buffet"
 NY_GASTRO_URL = "https://torvekoekken.dk/sjaelland/frokostordning/nygastro-buffet"
+VERDENS_URL = "https://torvekoekken.dk/sjaelland/frokostordning/verdens-buffet"
 PORTIONS_URL = "https://torvekoekken.dk/sjaelland/frokostordning/portionsanretninger"
   
 HEADERS = ({'User-Agent':
@@ -64,6 +66,12 @@ soup = BeautifulSoup(webpage.content, "html.parser")
 dom = etree.HTML(str(soup))
 urldict["nygastro"] = dom.xpath('/html/body/main/div/div/div[1]/div/div[1]/div/div/div/div[2]/button[2]/@onclick')
   
+webpage = requests.get(VERDENS_URL, headers=HEADERS)
+soup = BeautifulSoup(webpage.content, "html.parser")
+dom = etree.HTML(str(soup))
+urldict["verdens"] = dom.xpath('/html/body/main/div/div/div[1]/div/div[1]/div/div/div/div[2]/button[2]/@onclick')
+  
+
 webpage = requests.get(PORTIONS_URL, headers=HEADERS)
 soup = BeautifulSoup(webpage.content, "html.parser")
 dom = etree.HTML(str(soup))
