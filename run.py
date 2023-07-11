@@ -23,7 +23,7 @@ currentweek = []
             
 def render_message(menudict):
     day_template = """```spoiler {{ day }}\n\n{{content}}```\n"""
-    render = ""
+    render = []
     for day in range(0,len(menudict["favorit"])): # -1 because of empty page
         content_str = ""
         print(len(menudict))
@@ -33,7 +33,7 @@ def render_message(menudict):
                 continue
             content_str += "\n##" + emoji_dict[key] + str(key).upper() + emoji_dict[key]
             content_str += str(menudict[key][day])
-        render += chevron.render(day_template, {'day': dayslist[day], 'content': content_str})
+        render.append(chevron.render(day_template, {'day': dayslist[day], 'content': content_str}))
     return(render)
 
    
@@ -108,31 +108,28 @@ for category,url in urldict.items():
         text = re.sub(r'.*[a-åA-å]{3,4}\w*DAG\w*', '', text) # remove days
         text = text.split('Tallene')[0] #remove allergene text at the end of string
         menudict[category].append(text)
-print(currentweek)
-todaystext = render_message(menudict)    
+todaystext_list = render_message(menudict)    
 
 stream_name = os.environ.get("STREAM")
 print("sending menu of the day to:")
-print(stream_name)
 
 if os.name == 'nt':
-    print("sending private message")
-    user_id = 390558
-    request = {
-    "type": "private",
-    "to": [user_id],
-    "content": todaystext,
-    }
+    for day_text in todaystext_list:
+        user_id = 390558
+        request = {
+        "type": "private",
+        "to": [user_id],
+        "content": day_text,
+        }
+        result = client.send_message(request)
     
     
 else:
-    request = {
-        "type": "stream",
-        "to": stream_name,
-        "topic": currentweek[0],
-        "content": todaystext,
-    }
-    
-    
-result = client.send_message(request)
-print(result)   
+    for day_text in todaystext_list:
+        request = {
+            "type": "stream",
+            "to": stream_name,
+            "topic": currentweek[0],
+            "content": day_text,
+        }
+        result = client.send_message(request)
